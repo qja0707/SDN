@@ -9,12 +9,16 @@ public class Registration {
 	public Registration(Member member){
 		this.member=member;
 		
-		DBconnector dbConnector = new DBconnector();
-		dbConnector.regId(member);
-		dbConnector.regPort(member);
+		System.out.println("registration class is running");
 		
-		MakeContainer mc = new MakeContainer(member);
+//		DBconnector dbConnector = new DBconnector();
+//		dbConnector.regId(member);
+//		dbConnector.regPort(member);
 		
-		dbConnector.disconnect();
+//		MakeContainer mc = new MakeContainer(member);
+		MakeContainer mc = new MakeContainer();
+		mc.executeCommand("sudo docker run -d -p 16630:6633 -p 18180:8181 ubuntu:odl2 /distribution-karaf-0.6.1-Carbon/bin/karaf");
+		
+//		dbConnector.disconnect();
 	}
 }

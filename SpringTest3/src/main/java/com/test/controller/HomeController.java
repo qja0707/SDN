@@ -58,6 +58,7 @@ public class HomeController {
 	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
 	public String registration(HttpServletRequest request) {
 
+		System.out.println("controller-registration.do");
 		Member member = new Member();
 		
 		member.setId(request.getParameter("id"));

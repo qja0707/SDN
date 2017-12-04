@@ -210,7 +210,7 @@ a.button:hover {
 	<div class="testbox">
 		<h1>Registration</h1>
 
-		<form method="post" action="/test/registration.do">
+		<form method="post" action="/sdnProject/registration.do">
 			<label id="icon" for="name"><i class="icon-envelope "></i></label> <input
 				type="text" name="id" placeholder="ID" required />  <label
 				id="icon" for="name"><i class="icon-shield"></i></label> <input

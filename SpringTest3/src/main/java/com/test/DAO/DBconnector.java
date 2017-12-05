@@ -26,7 +26,7 @@ public class DBconnector {
 		}
 	}
 	
-	public void regPort(Member member){
+	public Member regPort(Member member){
 		int port6633 = 16630;
 		int port8181 = 18180;
 		
@@ -37,6 +37,8 @@ public class DBconnector {
 				port6633 = rs.getInt("port6633")+1;
 				port8181 = rs.getInt("port8181")+1;
 			}
+			member.setPort6633(port6633);
+			member.setPort8181(port8181);
 			sql = "insert into portnum (port6633,port8181,id) values(?,?,?);";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1,port6633);
@@ -47,6 +49,7 @@ public class DBconnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
+		return member;
 	}
 	
 	public void regId(Member member){

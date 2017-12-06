@@ -210,18 +210,19 @@ a.button:hover {
 	<div class="testbox">
 		<h1>Sign-In</h1>
 
-		<form action="/">
+		<form method="post" action="/sdnProject/signin.do">
 
 			<label id="icon" for="name"><i class="icon-envelope "></i></label> <input
-				type="text" name="name" id="name" placeholder="ID" required /> <label
+				type="text" name="id" placeholder="ID" required />  <label
 				id="icon" for="name"><i class="icon-shield"></i></label> <input
-				type="password" name="name" id="name" placeholder="Password"
+				type="password" name="pw" placeholder="Password"
 				required />
 			<p>
 				If you don't have account, please click register button</a>.
 			</p>
+			<input type="submit" class="button" value="Sign-In"/>
 			<a href="registration" class="button">Registration</a>
-			<a href="#" class="button">Sign-In</a>
+			<!-- <a href="signin" class="button">Sign-In</a> -->
 		</form>
 	</div>
 

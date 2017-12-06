@@ -6,6 +6,9 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ import com.test.BO.GetAndParser;
 import com.test.BO.PutTest2;
 import com.test.BO.Registration;
 import com.test.BO.RestNew;
+import com.test.BO.SignIn;
 import com.test.VO.Member;
 
 /**
@@ -45,9 +49,9 @@ public class HomeController {
 
 		model.addAttribute("serverTime", formattedDate);
 
-
 		return "SignIn";
 	}
+
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registrationPage(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -55,19 +59,6 @@ public class HomeController {
 		return "Registration";
 	}
 
-	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
-	public String registration(HttpServletRequest request) {
-
-		System.out.println("controller-registration.do");
-		Member member = new Member();
-		
-		member.setId(request.getParameter("id"));
-		member.setPw(request.getParameter("pw"));
-		
-		System.out.println(member.getId()+","+member.getPw());
-		Registration reg = new Registration(member);
-		return "SignIn";
-	}
 	@RequestMapping(value = "/mainPage", method = RequestMethod.GET)
 	public String mainPage(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -175,5 +166,55 @@ public class HomeController {
 		GetAndParser gap = new GetAndParser();
 		model.addAttribute("JSONArr", gap.totalParse());
 		return "getXmls";
+	}
+
+	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
+	public String registration(HttpServletRequest request) {
+
+		System.out.println("controller-registration.do");
+		Member member = new Member();
+
+		member.setId(request.getParameter("id"));
+		member.setPw(request.getParameter("pw"));
+
+		System.out.println(member.getId() + "," + member.getPw());
+		Registration reg = new Registration(member);
+		return "SignIn";
+	}
+
+	@RequestMapping(value = "/signin.do", method = RequestMethod.POST)
+	public String signin(HttpServletRequest request, Model model) {
+		GetAndParser gap = new GetAndParser();
+		
+		Member member = new Member();
+
+		member.setId(request.getParameter("id"));
+		member.setPw(request.getParameter("pw"));
+		System.out.println(member.getId() + "," + member.getPw());
+		
+		SignIn signin = new SignIn(member);
+		member.setPort8181(signin.getMember().getPort8181());
+		member.setPort6633(signin.getMember().getPort6633());
+		
+		JSONArray msg = null;
+		//부적절한 포트면 로그인이 제대로 안된것이기때문에 아이디 패스워드가 잘못되었다는 메시지를.
+		if(member.getPort6633()<10000){
+			JSONParser parser = new JSONParser();
+			String temp="[{\"Id or Password is unavailable. Please check your id or pw\":0}]";
+			try {
+				msg = (JSONArray) parser.parse(temp);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("temp empty parse error");
+			}
+		}
+		//적절한 포트면 기다려달라는 메시지와 포트 번호를
+		model.addAttribute("JSONArr", gap.topoParsing(member));
+		
+		String portInfo = "Controller ip: 52.231.25.158		port : "+member.getPort6633();
+		model.addAttribute("Port", portInfo);
+		// System.out.println("num : " + JA.length);
+		return "topologyXml";
 	}
 }

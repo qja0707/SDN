@@ -56,6 +56,34 @@ public class DBconnector {
 		return member;
 	}
 	
+	public Member signin(Member member){
+		int port6633 = 0;
+		int port8181 = 0;
+		
+		String sql = "select port8181, port6633 from member, portnum where member.id=portnum.id and member.id="+member.getId()+" and member.pw="+member.getPw()+";";
+		try {
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				port6633 = rs.getInt("port6633")+1;
+				port8181 = rs.getInt("port8181")+1;
+			}
+//			if(port6633<10000)
+//				port6633=16630;
+//			if(port8181<10000)
+//				port8181=18180;
+			member.setPort6633(port6633);
+			member.setPort8181(port8181);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("There is no id or pw");
+			member.setPort6633(port6633);
+			member.setPort8181(port8181);
+		}		
+		return member;
+	}
+	
 	public void regId(Member member){
 		String sql = "insert into member values(?,?);";
 		

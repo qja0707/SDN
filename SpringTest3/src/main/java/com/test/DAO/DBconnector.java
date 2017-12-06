@@ -60,7 +60,7 @@ public class DBconnector {
 		int port6633 = 0;
 		int port8181 = 0;
 		
-		String sql = "select port8181, port6633 from member, portnum where member.id=portnum.id and member.id=\'"+member.getId()+"\' and member.pw="+member.getPw()+";";
+		String sql = "select port8181, port6633 from member, portnum where member.id=portnum.id and member.id=\'"+member.getId()+"\' and member.pw=\'"+member.getPw()+"\';";
 		try {
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){

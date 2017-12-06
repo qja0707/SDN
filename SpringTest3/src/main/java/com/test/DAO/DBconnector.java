@@ -101,12 +101,22 @@ public class DBconnector {
 	
 	public void disconnect(){
 		try {
-			if(!pstmt.isClosed()){
+			if(!pstmt.isClosed()||pstmt!=null){
 				pstmt.close();
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
 			if(!st.isClosed()){
 				st.close();
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
 			if(!connection.isClosed()){
 				connection.close();
 			}

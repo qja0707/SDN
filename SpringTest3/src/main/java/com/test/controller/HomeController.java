@@ -193,8 +193,7 @@ public class HomeController {
 		System.out.println(member.getId() + "," + member.getPw());
 		
 		SignIn signin = new SignIn(member);
-		member.setPort8181(signin.getMember().getPort8181());
-		member.setPort6633(signin.getMember().getPort6633());
+		member = signin.getMember();
 		
 		JSONArray msg = null;
 		//부적절한 포트면 로그인이 제대로 안된것이기때문에 아이디 패스워드가 잘못되었다는 메시지를.

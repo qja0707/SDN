@@ -214,6 +214,7 @@ public class HomeController {
 		
 		String portInfo = "Controller ip: 52.231.25.158		port : "+member.getPort6633();
 		model.addAttribute("Port", portInfo);
+		System.out.println(portInfo);
 		// System.out.println("num : " + JA.length);
 		return "topologyXml";
 	}

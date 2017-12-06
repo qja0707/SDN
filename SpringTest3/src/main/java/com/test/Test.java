@@ -1,61 +1,83 @@
 package com.test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
 
-import com.test.VO.Member;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Test {
 
 	public static void main(String[] args) {
-		Connection connection = null;
-		Statement st = null;
-		PreparedStatement pstmt = null;
-
+		String line=null;
+		JSONObject jobj = null;
+		JSONArray msg = null;
+		//JSONArray msgt = null;
+		//JSONArray[][] JAA = null;
+		System.out.println("topoParsing start");
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://ja-cdbr-azure-west-a.cloudapp.net:3306/sdn",
-					"b4484a12c122e1", "46df1f90");
-			st = connection.createStatement();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			line = "";
+			URL url = new URL(
+					"http://52.231.25.158:"+"18182"+"/restconf/operational/network-topology:network-topology/topology/flow:1");
+			String encoding = Base64.getEncoder().encodeToString(("admin:admin").getBytes("UTF-8"));
 
-		int port6633 = 0;
-		int port8181 = 0;
-		Member member = new Member();
-		member.setId("test");
-		member.setPw("test");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setDoOutput(true);
+			connection.setRequestProperty("Authorization", "Basic " + encoding);
+			InputStream content = (InputStream) connection.getInputStream();
 
-		String sql = "select port8181, port6633 from member, portnum where member.id=portnum.id and member.id=\'"
-				+ member.getId() + "\' and member.pw=\'" + member.getPw() + "\';";
-		try {
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				port6633 = rs.getInt("port6633") + 1;
-				port8181 = rs.getInt("port8181") + 1;
+			BufferedReader in = new BufferedReader(new InputStreamReader(content));
+			line = "";
+			String temp=null;
+			while ((temp = in.readLine()) != null) {
+				line = line + temp;
+				System.out.println(temp);
 			}
-			// if(port6633<10000)
-			// port6633=16630;
-			// if(port8181<10000)
-			// port8181=18180;
-			member.setPort6633(port6633);
-			member.setPort8181(port8181);
-			
-			System.out.println("port6633 : "+member.getPort6633());
+//			System.out.println(line);
+			JSONParser parser = new JSONParser();
+			jobj = (JSONObject) parser.parse(line);
+			msg = (JSONArray) jobj.get("topology");
+			jobj = (JSONObject) msg.get(0);
+//			msg = (JSONArray) jobj.get("link");
+			//int i=0;
+			//i = msg.size();
+			//System.out.println("i : "+i);
+			//JAA = new JSONArray[2][i];
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			/*
+			for(int j=0; j<i;j++) {
+				jobj = (JSONObject) msg.get(j);
+				 JAA[0][j].add((JSONArray) jobj.get("link-id"));
+				msgt = (JSONArray) jobj.get("destination");
+				jobj = (JSONObject) msgt.get(0);
+				JAA[1][j].add((JSONArray) jobj.get("dest-tp"));
+			
+			}
+			*/
+			//System.out.println("msg:"+jobj);
+
+			
+		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There is no id or pw");
-			member.setPort6633(port6633);
-			member.setPort8181(port8181);
+			String temp = "[{\"Server is not running, please wait\":0}]";
+			JSONParser parser = new JSONParser();
+			try {
+				msg = (JSONArray) parser.parse(temp);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("temp empty parse error");
+			}
 		}
+		
+		System.out.println(msg);
 	}
 
 }

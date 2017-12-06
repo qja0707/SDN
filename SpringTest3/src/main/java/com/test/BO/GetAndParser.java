@@ -223,7 +223,7 @@ public class GetAndParser {
 			jobj = (JSONObject) parser.parse(line);
 			msg = (JSONArray) jobj.get("topology");
 			jobj = (JSONObject) msg.get(0);
-			msg = (JSONArray) jobj.get("link");
+//			msg = (JSONArray) jobj.get("link");
 			//int i=0;
 			//i = msg.size();
 			//System.out.println("i : "+i);

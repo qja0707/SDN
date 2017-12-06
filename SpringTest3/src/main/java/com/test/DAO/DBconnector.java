@@ -101,7 +101,7 @@ public class DBconnector {
 	
 	public void disconnect(){
 		try {
-			if(!pstmt.isClosed()){
+			if(!pstmt.isClosed()||pstmt!=null){
 				pstmt.close();
 			}
 		} catch (SQLException e) {

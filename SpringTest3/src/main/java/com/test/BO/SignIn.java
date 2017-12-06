@@ -14,6 +14,8 @@ public class SignIn {
 		this.member=dbConnector.signin(member);
 		
 		dbConnector.disconnect();
+		
+		System.out.println("member port:"+member.getPort8181());
 	}
 	public Member getMember() {
 		return member;

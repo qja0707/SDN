@@ -125,4 +125,24 @@ public class DBconnector {
 			e.printStackTrace();
 		}
 	}
+	public void disconnect2(){
+		
+		try {
+			if(!st.isClosed()){
+				st.close();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			if(!connection.isClosed()){
+				connection.close();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

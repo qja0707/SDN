@@ -27,8 +27,8 @@ public class DBconnector {
 	}
 	
 	public Member regPort(Member member){
-		int port6633 = 16630;
-		int port8181 = 18180;
+		int port6633 = 0;
+		int port8181 = 0;
 		
 		String sql = "select max(port8181) as port8181,max(port6633) as port6633 from portnum;";
 		try {
@@ -37,6 +37,10 @@ public class DBconnector {
 				port6633 = rs.getInt("port6633")+1;
 				port8181 = rs.getInt("port8181")+1;
 			}
+			if(port6633<10000)
+				port6633=16630;
+			if(port8181<10000)
+				port8181=18180;
 			member.setPort6633(port6633);
 			member.setPort8181(port8181);
 			sql = "insert into portnum (port6633,port8181,id) values(?,?,?);";

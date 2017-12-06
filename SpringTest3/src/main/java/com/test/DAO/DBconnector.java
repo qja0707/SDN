@@ -64,8 +64,8 @@ public class DBconnector {
 		try {
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){
-				port6633 = rs.getInt("port6633")+1;
-				port8181 = rs.getInt("port8181")+1;
+				port6633 = rs.getInt("port6633");
+				port8181 = rs.getInt("port8181");
 			}
 //			if(port6633<10000)
 //				port6633=16630;

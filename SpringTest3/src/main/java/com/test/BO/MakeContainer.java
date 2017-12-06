@@ -8,6 +8,8 @@ import com.test.VO.Member;
 public class MakeContainer {
 
 	public String makeContainer(Member member) {
+		
+		System.out.println("port:"+member.getPort6633());
 
 		StringBuffer output = new StringBuffer();
 		String command = "sudo docker run --rm -d -p " + member.getPort6633() + ":6633 -p " + member.getPort8181()

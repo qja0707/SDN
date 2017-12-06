@@ -16,7 +16,7 @@ public class Registration {
 		this.member=dbConnector.regPort(member);
 		
 		MakeContainer mc = new MakeContainer();
-		mc.makeContainer(member);
+		mc.makeContainer(this.member);
 		
 		dbConnector.disconnect();
 	}

@@ -13,7 +13,7 @@ public class MakeContainer {
 
 		StringBuffer output = new StringBuffer();
 		String command = "sudo docker run --rm -d -p " + member.getPort6633() + ":6633 -p " + member.getPort8181()
-				+ ":8181 ubuntu:odl2 /distribution-karaf-0.6.1-Carbon/bin/karaf";
+				+ ":8181 qja0707/odl /distribution-karaf-0.6.1-Carbon/bin/karaf";
 
 		Process p;
 		try {

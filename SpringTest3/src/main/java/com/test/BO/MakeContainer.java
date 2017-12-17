@@ -9,6 +9,7 @@ public class MakeContainer {
 
 	public String makeContainer(Member member) {
 		
+		
 		System.out.println("port:"+member.getPort6633());
 
 		StringBuffer output = new StringBuffer();
